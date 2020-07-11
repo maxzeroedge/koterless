@@ -14,26 +14,35 @@ import org.yaml.snakeyaml.constructor.Constructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ServerlessYml (
         /**
-     * The name of the service
-     */
-    @JsonProperty("service")
-    var _service: String? = null,
+         * The name of the service
+         */
+        @JsonProperty("service")
+        var _service: String? = null,
 
-    @JsonProperty("provider")
-    var _provider: ServerlessProvider? = null,
+        @JsonProperty("provider")
+        var _provider: ServerlessProvider? = null,
 
-    @JsonProperty("package")
-    var _package: ServerlessPackage? = null,
+        @JsonProperty("package")
+        var _package: ServerlessPackage? = null,
 
         /**
-     * Making it of object type, since it could be list of files, with function definition or a map
-     */
-    @JsonProperty("functions")
-    var _functions: Any? = null,
+         * Making it of object type, since it could be list of files, with function definition or a map
+         */
+        @JsonProperty("functions")
+        var _functions: Any? = null,
+
+        @JsonProperty("custom")
+        var _custom: Any? = null,
+
+        @JsonProperty("resources")
+        var _resources: Any? = null,
+
+        @JsonProperty("plugins")
+        var _plugins: Any? = null,
         /**
-     * The compiled version of functions
-     */
-    var _functionsCompiled: Map<String, ServerlessFunction>? = null
+         * The compiled version of functions
+         */
+        var _functionsCompiled: Map<String, ServerlessFunction>? = null
 ) {
 
     fun parseFunctions(parserUtilities: ParserUtilities){

@@ -2,8 +2,8 @@ package com.palashmax.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.yaml.snakeyaml.TypeDescription
-import org.yaml.snakeyaml.constructor.Constructor
+//import org.yaml.snakeyaml.TypeDescription
+//import org.yaml.snakeyaml.constructor.Constructor
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ServerlessFunction (
@@ -17,15 +17,14 @@ data class ServerlessFunction (
      * Timeout to be used for the api gateway
      */
     @JsonProperty("timeout")
-    var _timeout: Int = 0,
+    var _timeout: Int? = 0,
 
     /**
      * List of events that will trigger the lambda
      */
     @JsonProperty("events")
     var _events: List<ServerlessEvent>? = null
-) {
-
+) /*{
     companion object {
         @JvmStatic
         fun ymlConstructor(): Constructor {
@@ -36,7 +35,7 @@ data class ServerlessFunction (
             return constructor
         }
     }
-}
+}*/
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ServerlessEvent (
