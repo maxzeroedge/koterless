@@ -22,7 +22,7 @@ repositories {
 	mavenCentral()
 }
 
-val jackson_version = "2.9.7"
+val jackson_version = "2.11.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -54,6 +54,14 @@ tasks.withType<KotlinCompile> {
 		jvmTarget = "1.8"
 	}
 }
+
+/*val args: List<String> by project
+
+task("bootRun") {
+	if (project.hasProperty("args")) {
+		var args = project.args.split(',')
+	}
+}*/
 
 application {
 	mainClass.set("com.palashmax.koterless.KoterlessApplicationKt")
