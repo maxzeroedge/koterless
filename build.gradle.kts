@@ -22,12 +22,14 @@ repositories {
 	mavenCentral()
 }
 
-val jackson_version = "2.11.0"
+// val jackson_version = "2.11.0"
+val snakeYaml_version = "1.26-SNAPSHOT"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}")
+	// implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -38,10 +40,11 @@ dependencies {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
 	testImplementation("io.projectreactor:reactor-test")
-	implementation("com.fasterxml.jackson.core:jackson-databind:${jackson_version}")
+	/*implementation("com.fasterxml.jackson.core:jackson-databind:${jackson_version}")
 	implementation("com.fasterxml.jackson.core:jackson-annotations:${jackson_version}")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}")
-	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson_version}")
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson_version}")*/
+	implementation("org.yaml:snakeyaml:$snakeYaml_version")
 }
 
 tasks.withType<Test> {

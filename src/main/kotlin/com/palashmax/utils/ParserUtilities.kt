@@ -3,7 +3,9 @@ package com.palashmax.utils
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.palashmax.model.FunctionYml
 import com.palashmax.model.ServerlessYml
+import org.yaml.snakeyaml.TypeDescription
 import org.yaml.snakeyaml.Yaml
+import org.yaml.snakeyaml.constructor.Constructor
 import java.io.File
 
 class ParserUtilities {
@@ -35,7 +37,7 @@ class ParserUtilities {
             try {
                 val functionsRead =
                     Yaml().load<Map<String, FunctionYml>>(this.readFromFile(functionFile))
-                if (functionsRead.size > 0) {
+                if (functionsRead.isNotEmpty()) {
                     _functionsCompiled.putAll(functionsRead)
                 }
             } catch (e: Exception) {
