@@ -11,16 +11,16 @@ class ParserUtilities {
 
     fun readFromFile(path: String): String {
         // Read data from fileReader
-        val stringBuilder = File(path).readText(Charsets.UTF_8)
-        return stringBuilder
+        val stringBuilder = File("${ymlLocaltion}${File.separator}${path}").readText(Charsets.UTF_8)
+        return stringBuilder.toString()
     }
 
     fun parseYml(): ServerlessYml? {
-        val slsFile = this.readFromFile(ymlLocaltion)
+        val slsFile = this.readFromFile("serverless.yml")
         val yamlParser = Yaml()
         val map = yamlParser.load<Map<*,*>>(slsFile) //classLoader.getResourceAsStream("serverless.yml")
         val objMapped = ObjectMapper().convertValue(map, ServerlessYml::class.java)
-        objMapped.parseFunctions()
+        objMapped.parseFunctions(this)
         return objMapped
     }
 
@@ -34,7 +34,7 @@ class ParserUtilities {
             val function = this.readFromFile(functionFile)
             try {
                 val functionsRead =
-                    Yaml().load<Any>(this.readFromFile(functionFile)) as Map<String, FunctionYml>
+                    Yaml().load<Map<String, FunctionYml>>(this.readFromFile(functionFile))
                 if (functionsRead.size > 0) {
                     _functionsCompiled.putAll(functionsRead)
                 }

@@ -43,14 +43,14 @@ class ServerlessYml {
      */
     var _functionsCompiled: Map<String, FunctionYml>? = null
 
-    fun parseFunctions(){
+    fun parseFunctions(parserUtilities: ParserUtilities){
         if (_functionsCompiled == null) {
             if (_functions is Map<*, *>) {
                 _functionsCompiled = _functions as Map<String, FunctionYml>
                 ObjectMapper().convertValue((_functions as Map<String, Map<*,*>>).get("usersCreate"), FunctionYml::class.java)
             } else if (_functions is List<*>) {
                 // Load and compile
-                _functionsCompiled = ParserUtilities().loadFunctions(_functions as List<String>)
+                _functionsCompiled = parserUtilities.loadFunctions(_functions as List<String>)
             }
         }
     }

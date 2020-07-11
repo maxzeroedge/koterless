@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
+import org.springframework.core.io.ClassPathResource
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.PrintStream
@@ -19,14 +20,15 @@ class KoterlessApplication
 fun main(args: Array<String>) {
 
 	val parser = ParserUtilities()
-	parser.ymlLocaltion = "/media/pc/Store/Projects/kotlin/koterless/serverless.yml" //""/media/pc/Store/Projects/office/sls/print_import_export/serverless.yml"
+	// parser.ymlLocaltion = ClassPathResource("test_ymls/serverless.yml").path
+            //"/media/pc/Store/Projects/kotlin/koterless/serverless.yml" //""/media/pc/Store/Projects/office/sls/print_import_export/serverless.yml"
 
     if(args.size > 0){
         println(args.forEach { println(it.toString()) })
         parser.ymlLocaltion = args[0]
     } else {
-        println(System.getProperty("user.dir"))
-        parser.ymlLocaltion = "${System.getProperty("user.dir")}/serverless.yml"
+        // println(System.getProperty("user.dir"))
+        parser.ymlLocaltion = ClassPathResource("test_ymls").file.absolutePath //"${System.getProperty("user.dir")}/serverless.yml"
     }
     //println("Current Working Directory: ${System.getProperty("user.dir")}")
 	val serverlessYml = parser.parseYml()

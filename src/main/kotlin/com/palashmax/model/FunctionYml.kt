@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-class FunctionYml {
+class FunctionYml: LinkedHashMap<String, Any>() {
     /**
      * Class of the function handler
      */
