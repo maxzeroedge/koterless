@@ -11,7 +11,8 @@ data class ServerlessFunction (
      * Class of the function handler
      */
     @JsonProperty("handler")
-    var _handler: Class<*>? = null,
+    //var _handler: Class<*>? = null, // TODO: Think how
+    var _handler: String? = null,
 
     /**
      * Timeout to be used for the api gateway
@@ -102,7 +103,7 @@ data class ServerlessS3Event (
      * Event type
      */
     @JsonProperty("event")
-    var _event: S3EventEnum? = null
+    var _event: String? = null
 ) /*{
     companion object {
         @JvmStatic

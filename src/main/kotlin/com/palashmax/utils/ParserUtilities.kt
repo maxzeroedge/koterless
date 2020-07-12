@@ -4,18 +4,21 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.palashmax.model.ServerlessFunction
 import com.palashmax.model.ServerlessYml
-import org.yaml.snakeyaml.TypeDescription
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import org.yaml.snakeyaml.Yaml
-import org.yaml.snakeyaml.constructor.Constructor
 import java.io.File
 
+@Component
 class ParserUtilities {
-    var ymlLocaltion: String = ""
+    @Autowired
+    lateinit var ymlLocation: String
+
     val mapper = ObjectMapper().registerModule(KotlinModule())
 
     fun readFromFile(path: String): String {
         // Read data from fileReader
-        val stringBuilder = File("${ymlLocaltion}${File.separator}${path}").readText(Charsets.UTF_8)
+        val stringBuilder = File("${ymlLocation}${File.separator}${path}").readText(Charsets.UTF_8)
         return stringBuilder.toString()
     }
 
