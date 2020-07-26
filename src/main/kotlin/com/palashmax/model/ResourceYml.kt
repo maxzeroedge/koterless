@@ -1,4 +1,4 @@
 package com.palashmax.model
 
-class ResourceYml {
+class ResourceYml{
 }

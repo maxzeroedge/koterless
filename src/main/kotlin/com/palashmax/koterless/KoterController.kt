@@ -1,7 +1,11 @@
 package com.palashmax.koterless
 
+import com.amazonaws.services.lambda.runtime.Context
+import com.palashmax.model.ServerlessFunction
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import java.io.File
+import java.net.URLClassLoader
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -27,6 +31,7 @@ class KoterController {
                                     if( !params.isNullOrEmpty() ){
                                         // TODO: respond to this
                                         output = "Got request with ${params.values}"
+                                        runRequestForResponse(functionEntry, params, body)
                                     }
                                 }
                             } else {
@@ -57,6 +62,24 @@ class KoterController {
             }
         }
         return params;
+    }
+
+    fun runRequestForResponse(functionEntry: ServerlessFunction, params: Map<String, String>, body: Any?){
+        val functionPath = File(functionEntry._handler).toURI()
+        val classLoader = ClassLoader.getSystemClassLoader()
+        try {
+            val className = functionEntry._handler!! // .substring(0, functionEntry._handler!!.lastIndexOf("."))
+            val functionName = "handleRequest"//functionEntry._handler!!.substring(functionEntry._handler!!.lastIndexOf(".") + 1)
+            val functionClass = classLoader.loadClass(className)
+            // TODO: Pass in parameters
+            val requestInput = mutableMapOf<String, Object>(
+                "pathParameters" to params as Object,
+                "body" to body as Object
+            )
+            functionClass.getMethod(functionName, Map::class.java, Context::class.java).invoke(functionClass.newInstance(), requestInput, null)
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
     // TODO: Create a responder function

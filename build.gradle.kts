@@ -43,7 +43,11 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-annotations:${jackson_version}")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jackson_version}")
 	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jackson_version}")
+	implementation("com.amazonaws:aws-lambda-java-core:1.2.1")
 	// implementation("org.yaml:snakeyaml:$snakeYaml_version")
+	if(project.hasProperty("includeJar")){
+		implementation(files(project.property("includeJar")))
+	}
 }
 
 tasks.withType<Test> {
