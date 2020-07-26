@@ -140,7 +140,7 @@
 						</goals>
 						<configuration>
 							<files>
-								<file>${basedir}/gradle.properties</file>
+								<file>${project.basedir}/maven.properties</file>
 							</files>
 						</configuration>
 					</execution>
