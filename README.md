@@ -26,6 +26,7 @@ For gradle, add serverless yml folder to args and jar folder to includeJar in gr
 
 `./gradle build`
 
+For maven, update jar location in maven.properties
 `./mvnw spring-boot:run`
 
 `./mvnw install`
