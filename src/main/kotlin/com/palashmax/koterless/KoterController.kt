@@ -73,9 +73,11 @@ class KoterController {
             val functionClass = classLoader.loadClass(className)
             // TODO: Pass in parameters
             val requestInput = mutableMapOf<String, Object>(
-                "pathParameters" to params as Object,
-                "body" to body as Object
+                "pathParameters" to params as Object
             )
+            if(body != null){
+                requestInput.put("body", body as Object)
+            }
             functionClass.getMethod(functionName, Map::class.java, Context::class.java).invoke(functionClass.newInstance(), requestInput, null)
         } catch (e: Exception){
             e.printStackTrace()
