@@ -92,36 +92,19 @@
 			<artifactId>aws-lambda-java-core</artifactId>
 			<version>1.2.1</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>${projectGroupId}</groupId>
 			<artifactId>${projectArtifactId}</artifactId>
 			<version>${projectVersionId}</version>
 			<scope>system</scope>
 			<systemPath>${includeJar}</systemPath>
-		</dependency> -->
+		</dependency>
 	</dependencies>
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<!--to be imported on other projects-->
-							<classifier>koterless-runner</classifier>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
