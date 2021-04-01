@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 
 
 @SpringBootApplication
-class KoterlessApplication
+open class KoterlessApplication
 
 fun main(args: Array<String>) {
 	runApplication<KoterlessApplication>(*args)
@@ -42,6 +42,8 @@ class CommandLineAppStartupRunner : CommandLineRunner {
         // parser.ymlLocaltion = ClassPathResource("test_ymls/serverless.yml").path
         //"/media/pc/Store/Projects/kotlin/koterless/serverless.yml" //""/media/pc/Store/Projects/office/sls/print_import_export/serverless.yml"
 
+        println("args: ")
+        println(args.forEach { println(it.toString()) })
         if(args.size > 0){
             println(args.forEach { println(it.toString()) })
             parser.ymlLocation = args[0]

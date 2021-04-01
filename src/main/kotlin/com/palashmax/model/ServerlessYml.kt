@@ -48,8 +48,16 @@ data class ServerlessYml (
     fun parseFunctions(parserUtilities: ParserUtilities){
         if (_functionsCompiled == null) {
             if (_functions is Map<*, *>) {
-                _functionsCompiled = _functions as Map<String, ServerlessFunction>
-                ObjectMapper().convertValue((_functions as Map<String, Map<*,*>>).get("usersCreate"), ServerlessFunction::class.java)
+                // _functionsCompiled = _functions as Map<String, ServerlessFunction>
+                // ObjectMapper().convertValue((_functions as Map<String, Map<*,*>>).get("usersCreate"), ServerlessFunction::class.java)
+                _functionsCompiled = mutableMapOf()
+                (_functions as Map<*, *>).keys.forEach {
+                    (_functionsCompiled as MutableMap<String, ServerlessFunction>)[it.toString()] =
+                        ObjectMapper().convertValue(
+                            (_functions as Map<String, Map<*,*>>)[it],
+                            ServerlessFunction::class.java
+                        )
+                }
             } else if (_functions is List<*>) {
                 // Load and compile
                 _functionsCompiled = parserUtilities.loadFunctions(_functions as List<String>)

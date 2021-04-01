@@ -17,7 +17,7 @@ class KoterController {
     @RequestMapping(value= ["/**"])
     fun handleRequest(@RequestParam pathVariable: Any?, @RequestBody body: Any?, request: HttpServletRequest, response: HttpServletResponse): String{
         val serverlessYml = koterlessInitializer.serverlessYml
-        val requestPath = request.servletPath.substring(1)
+        val requestPath = request.servletPath //.substring(1)
         var output = "Hello $pathVariable ${request.servletPath}. Couldn't find a matching request"
         serverlessYml._functionsCompiled!!.values.stream().forEach {
             functionEntry -> run {
@@ -28,7 +28,7 @@ class KoterController {
                                 functionEvent._http!!._path?.let {
                                     // TODO: Define route using this
                                     val params = matchUrlToRequest(requestPath, it)
-                                    if( !params.isNullOrEmpty() ){
+                                    if( params != null ){ //!params.isNullOrEmpty()
                                         // TODO: respond to this
                                         output = "Got request with ${params.values}"
                                         runRequestForResponse(functionEntry, params, body)
