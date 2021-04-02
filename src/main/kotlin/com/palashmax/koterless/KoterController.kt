@@ -19,25 +19,35 @@ class KoterController {
         val serverlessYml = koterlessInitializer.serverlessYml
         val requestPath = request.servletPath //.substring(1)
         var output = "Hello $pathVariable ${request.servletPath}. Couldn't find a matching request"
-        serverlessYml._functionsCompiled!!.values.stream().forEach {
-            functionEntry -> run {
-                if(!functionEntry._events.isNullOrEmpty()){
-                    functionEntry._events!!.stream().forEach {
-                        functionEvent -> run {
-                            if (functionEvent._http != null){
-                                functionEvent._http!!._path?.let {
-                                    // TODO: Define route using this
-                                    val params = matchUrlToRequest(requestPath, it)
-                                    if( params != null ){ //!params.isNullOrEmpty()
-                                        // TODO: respond to this
-                                        output = "Got request with ${params.values}"
-                                        runRequestForResponse(functionEntry, params, body)
-                                    }
-                                }
-                            } else {
-                                // TODO:
+        serverlessYml._functionsCompiled!!.keys.stream().forEach { functionName ->
+            val functionEntry =  serverlessYml._functionsCompiled!![functionName]
+            if(!functionEntry?._events.isNullOrEmpty()){
+                functionEntry?._events!!.stream().forEach { functionEvent ->
+                    var matched = false
+                    if (functionEvent._http != null){
+                        functionEvent._http!!._path?.let { path ->
+                            // Define route using this
+                            val params = matchUrlToRequest(requestPath, path)
+                            if( params != null ){ //!params.isNullOrEmpty()
+                                // respond to this
+                                output = "Got request with ${params.values}"
+                                runRequestForResponse(functionEntry, params, body)
+                                matched = true
                             }
                         }
+                    }
+                    if(!matched) {
+                        // Also Create/match proxy
+                        if(requestPath.equals("/proxyInvocations/${functionName}")) {
+                            val params = mutableMapOf<String, String>()
+                            request.queryString.split("&").forEach {
+                                params[it.split("=")[0]] = it.split("=")[1]
+                            }
+                            output = "Got request with ${params.values}"
+                            runRequestForResponse(functionEntry, params, body)
+                            matched = true
+                        }
+
                     }
                 }
             }
