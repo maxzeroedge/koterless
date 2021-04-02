@@ -1,25 +1,12 @@
-# Getting Started
+# Koterless - Run offline Serverless but with Kotlin
 
-### Reference Documentation
-For further reference, please consider the following sections:
+# Introduction
+The basic aim of this project is to be able to provide a local development environment for Kotlin (JVM)/Java developers wishing to move to Cloud frameworks, using Serverless Framework (https://www.serverless.com/). It does so by utilizing spring boot as the framework for running and managing server. However, spring boot wouldn't be included in the final deployment build, so it should look like a vanilla Java/Kotlin project!
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.3.1.RELEASE/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.3.1.RELEASE/gradle-plugin/reference/html/#build-image)
-* [Coroutines section of the Spring Framework Documentation](https://docs.spring.io/spring/docs/5.2.7.RELEASE/spring-framework-reference/languages.html#coroutines)
-* [WebSocket](https://docs.spring.io/spring-boot/docs/2.3.1.RELEASE/reference/htmlsingle/#boot-features-websockets)
-* [Spring Configuration Processor](https://docs.spring.io/spring-boot/docs/2.3.1.RELEASE/reference/htmlsingle/#configuration-metadata-annotation-processor)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.3.1.RELEASE/reference/htmlsingle/#using-boot-devtools)
+This project can also be used as an archetype for such projects.
 
-### Guides
-The following guides illustrate how to use some features concretely:
-
-* [Using WebSocket to build an interactive web application](https://spring.io/guides/gs/messaging-stomp-websocket/)
-
-### Additional Links
-These additional references should also help you:
-
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+# Instructions
+Supports both gradle and maven. Depending on the build tool of choice, copy the respective files from the `build_files` folder and update the properties.  
 
 For gradle, add serverless yml folder to args and jar folder to includeJar in gradle.properties
 `./gradlew bootRun`
@@ -30,3 +17,6 @@ For maven, update jar location in maven.properties
 `./mvnw spring-boot:run`
 
 `./mvnw install`
+
+
+Happy Hacking!
