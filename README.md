@@ -18,5 +18,6 @@ For maven, update jar location in maven.properties
 
 `./mvnw install`
 
+For sqs support, install `elasticmq` or provide the path in properties 
 
 Happy Hacking!

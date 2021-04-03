@@ -42,7 +42,12 @@ data class ServerlessYml (
         /**
          * The compiled version of functions
          */
-        var _functionsCompiled: Map<String, ServerlessFunction>? = null
+        var _functionsCompiled: Map<String, ServerlessFunction>? = null,
+
+        /**
+         * The compiled version of resources
+         */
+        var _resourcesCompiled: Map<String, ResourceYml>? = null
 ) {
 
     fun parseFunctions(parserUtilities: ParserUtilities){
@@ -54,7 +59,7 @@ data class ServerlessYml (
                 (_functions as Map<*, *>).keys.forEach {
                     (_functionsCompiled as MutableMap<String, ServerlessFunction>)[it.toString()] =
                         ObjectMapper().convertValue(
-                            (_functions as Map<String, Map<*,*>>)[it],
+                            (_functions as Map<*, *>)[it],
                             ServerlessFunction::class.java
                         )
                 }
@@ -62,6 +67,12 @@ data class ServerlessYml (
                 // Load and compile
                 _functionsCompiled = parserUtilities.loadFunctions(_functions as List<String>)
             }
+        }
+    }
+
+    fun parseResources(parserUtilities: ParserUtilities){
+        if(_resourcesCompiled == null){
+            // TODO:
         }
     }
     /*companion object {

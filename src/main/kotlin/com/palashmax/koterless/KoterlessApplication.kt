@@ -1,5 +1,6 @@
 package com.palashmax.koterless
 
+import com.palashmax.koterless.s3.S3Server
 import com.palashmax.model.ServerlessYml
 import com.palashmax.utils.ParserUtilities
 import org.slf4j.Logger
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component
 
 
 @SpringBootApplication
-open class KoterlessApplication
+class KoterlessApplication
 
 fun main(args: Array<String>) {
 	runApplication<KoterlessApplication>(*args)
@@ -43,9 +44,9 @@ class CommandLineAppStartupRunner : CommandLineRunner {
         //"/media/pc/Store/Projects/kotlin/koterless/serverless.yml" //""/media/pc/Store/Projects/office/sls/print_import_export/serverless.yml"
 
         println("args: ")
-        println(args.forEach { println(it.toString()) })
+        println(args.forEach { println(it) })
         if(args.size > 0){
-            println(args.forEach { println(it.toString()) })
+            println(args.forEach { println(it) })
             parser.ymlLocation = args[0]
         } else {
             // println(System.getProperty("user.dir"))
@@ -56,6 +57,12 @@ class CommandLineAppStartupRunner : CommandLineRunner {
         koterlessInitializer.serverlessYml = serverlessYml!!
         koterlessInitializer.parserUtilities = parser
         koterlessInitializer.ymlLocation = parser.ymlLocation
+
+        // Initialize S3
+        // TODO: Make conditional based on yml
+        S3Server().startServer()
+        // TODO: Initialize DynamoDB
+        // TODO: Initialize SQS
     }
 
     companion object {
