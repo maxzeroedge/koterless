@@ -35,7 +35,7 @@ data class ServerlessYml (
         var _custom: Any? = null,
 
         @JsonProperty("resources")
-        var _resources: Any? = null,
+        var _resources: ResourceYml? = null,
 
         @JsonProperty("plugins")
         var _plugins: Any? = null,
@@ -47,11 +47,11 @@ data class ServerlessYml (
         /**
          * The compiled version of resources
          */
-        var _resourcesCompiled: Map<String, ResourceYml>? = null
+        var _resourcesCompiled: Map<String, ResourceTypeYml>? = null
 ) {
 
     fun parseFunctions(parserUtilities: ParserUtilities){
-        if (_functionsCompiled == null) {
+        if (_functionsCompiled == null && _functions != null) {
             if (_functions is Map<*, *>) {
                 // _functionsCompiled = _functions as Map<String, ServerlessFunction>
                 // ObjectMapper().convertValue((_functions as Map<String, Map<*,*>>).get("usersCreate"), ServerlessFunction::class.java)
@@ -71,8 +71,8 @@ data class ServerlessYml (
     }
 
     fun parseResources(parserUtilities: ParserUtilities){
-        if(_resourcesCompiled == null){
-            // TODO:
+        if(_resourcesCompiled == null && _resources?._Resources?. isNotEmpty()!!){
+            _resourcesCompiled = parserUtilities.loadResources(_resources as List<String>)
         }
     }
     /*companion object {

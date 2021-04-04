@@ -8,3 +8,7 @@ data class ResourceYml(
 	@JsonProperty("Resources")
 	var _Resources: List<*>
 )
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+open class ResourceTypeYml(val Type: String) {
+}

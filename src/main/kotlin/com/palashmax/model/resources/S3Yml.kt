@@ -2,15 +2,16 @@ package com.palashmax.model.resources
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.palashmax.model.ResourceTypeYml
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class S3Yml (
+data class S3Yml(
 	@JsonProperty("Type")
 	var _type: String,
 
 	@JsonProperty("Property")
 	var _properties: S3PropertiesYml
-)
+): ResourceTypeYml(_type)
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class S3PropertiesYml(
