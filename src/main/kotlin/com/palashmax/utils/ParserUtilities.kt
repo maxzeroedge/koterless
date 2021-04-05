@@ -34,14 +34,18 @@ class ParserUtilities {
         return objMapped
     }
 
+    fun readFile(resource: String): String {
+        var resourceFile = resource.replace("\${file(", "")
+        resourceFile = resourceFile.substring(0, resourceFile.length - 2)
+        val resourceData = this.readFromFile(resourceFile)
+        return resourceData
+    }
 
     fun loadFunctions(_functions: List<String>): Map<String, ServerlessFunction> {
         var _functionsCompiled = LinkedHashMap<String, ServerlessFunction>()
         for (function in _functions) {
             //${file(api/functions.yml)}
-            var functionFile = function.replace("\${file(", "")
-            functionFile = functionFile.substring(0, functionFile.length - 2)
-            val functionData = this.readFromFile(functionFile)
+            val functionData = this.readFile(function)
             try {
                 val functionsRead =
                     Yaml().load<Map<String, ServerlessFunction>>(functionData)
@@ -62,31 +66,38 @@ class ParserUtilities {
     fun loadResources(_resources: List<String>): Map<String, ResourceTypeYml> {
         val resourcesCompiled = LinkedHashMap<String, ResourceTypeYml>()
         for(resource in _resources){
-            var resourceFile = resource.replace("\${file(", "")
-            resourceFile = resourceFile.substring(0, resourceFile.length - 2)
-            val resourceData = this.readFromFile(resourceFile)
+            val resourceData = this.readFile(resource)
             try {
                 val resourcesRead =
-                    Yaml().load<Map<String, ResourceTypeYml>>(resourceData)
+                    Yaml().load<Map<String, *>>(resourceData)
                 if (resourcesRead.isNotEmpty()) {
                     resourcesRead.entries.stream().forEach {
-                        // resourcesCompiled[it.key] = mapper.convertValue(it.value, ResourceYml::class.java)
-                        // TODO:
-                        when(resourcesRead.getValue(it.key).Type) {
-                            "AWS::S3::Bucket" -> {
-                                resourcesCompiled[it.key] = mapper.convertValue(it.value, S3Yml::class.java)
-                            }
-                            "AWS::DynamoDB::Table" -> {
-                                // TODO:
-                            }
+                        if(it.value is String) {
+                            val resourceRead = this.readFile(it.value.toString())
+                            resourcesCompiled[it.key] = this.loadResource(
+                                Yaml().load<Map<String, *>>(resourceRead)
+                            )
+                        } else if(it.value is Map<*, *>) {
+                            resourcesCompiled[it.key] = this.loadResource(it.value as Map<*, *>)
                         }
                     }
-                    // _functionsCompiled.putAll(functionsRead)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
         return resourcesCompiled
+    }
+
+    fun loadResource(resourceMap: Map<*, *>): ResourceTypeYml {
+        when( resourceMap["Type"]) {
+            "AWS::S3::Bucket" -> {
+                return mapper.convertValue(resourceMap, S3Yml::class.java)
+            }
+            "AWS::DynamoDB::Table" -> {
+                // TODO:
+            }
+        }
+        return ResourceTypeYml(resourceMap["Type"].toString())
     }
 }
