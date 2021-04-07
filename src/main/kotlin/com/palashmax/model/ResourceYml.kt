@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ResourceYml(
 	@JsonProperty("Resources")
-	var _Resources: List<*>
+	var _Resources: Any?
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -63,27 +63,31 @@ class ParserUtilities {
         return _functionsCompiled
     }
 
-    fun loadResources(_resources: List<String>): Map<String, ResourceTypeYml> {
+    fun loadResources(_resources: List<*>): Map<String, ResourceTypeYml> {
         val resourcesCompiled = LinkedHashMap<String, ResourceTypeYml>()
         for(resource in _resources){
-            val resourceData = this.readFile(resource)
-            try {
-                val resourcesRead =
-                    Yaml().load<Map<String, *>>(resourceData)
-                if (resourcesRead.isNotEmpty()) {
-                    resourcesRead.entries.stream().forEach {
-                        if(it.value is String) {
-                            val resourceRead = this.readFile(it.value.toString())
-                            resourcesCompiled[it.key] = this.loadResource(
-                                Yaml().load<Map<String, *>>(resourceRead)
-                            )
-                        } else if(it.value is Map<*, *>) {
-                            resourcesCompiled[it.key] = this.loadResource(it.value as Map<*, *>)
+            if(resource is String) {
+                val resourceData = this.readFile(resource)
+                try {
+                    val resourcesRead =
+                        Yaml().load<Map<String, *>>(resourceData)
+                    if (resourcesRead.isNotEmpty()) {
+                        resourcesRead.entries.stream().forEach {
+                            if(it.value is String) {
+                                val resourceRead = this.readFile(it.value.toString())
+                                resourcesCompiled[it.key] = this.loadResource(
+                                    Yaml().load<Map<String, *>>(resourceRead)
+                                )
+                            } else if(it.value is Map<*, *>) {
+                                resourcesCompiled[it.key] = this.loadResource(it.value as Map<*, *>)
+                            }
                         }
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
+                // TODO: Is proper map
             }
         }
         return resourcesCompiled

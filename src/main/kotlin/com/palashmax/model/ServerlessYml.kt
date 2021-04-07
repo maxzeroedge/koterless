@@ -71,8 +71,12 @@ data class ServerlessYml (
     }
 
     fun parseResources(parserUtilities: ParserUtilities){
-        if(_resourcesCompiled == null && _resources?._Resources?. isNotEmpty()!!){
-            _resourcesCompiled = parserUtilities.loadResources(_resources as List<String>)
+        if(_resourcesCompiled == null && _resources?._Resources != null){
+            if(_resources?._Resources is String) {
+                // read from file and load
+            } else if(_resources?._Resources is List<*>) {
+                _resourcesCompiled = parserUtilities.loadResources(_resources?._Resources as List<*>)
+            }
         }
     }
     /*companion object {
